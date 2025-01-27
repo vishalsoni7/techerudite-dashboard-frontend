@@ -18,3 +18,8 @@ export interface RegistrationResponseTypes extends RegistrationTypes {
 export interface VerifyEmailTypes {
   token: string;
 }
+
+export enum ROLES {
+  ADMIN = `admin`,
+  CUSTOMER = `customer`,
+}

@@ -9,13 +9,13 @@ import {
 } from "@mui/material";
 import { adminLogin } from "../services/authService";
 import { Form, Formik } from "formik";
-import { LoginTypes } from "../types/credentials";
+import { LoginTypes, ROLES } from "../types/credentials";
 import { adminLogInValidationSchema } from "../validations/login";
 import { CustomTextField } from "./CustomText";
 import { adminLoginInitialValues } from "../constant/auth";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../constant/routes";
-import { LOGIN_SUCCESS } from "../constant/messages";
+import { ADMIN_ONLY, LOGIN_SUCCESS, VERIFY_EMAIL } from "../constant/messages";
 import { showErrorToast, showSuccessToast } from "../utils/toast";
 
 const AdminLogin = () => {
@@ -25,14 +25,24 @@ const AdminLogin = () => {
     try {
       const response = await adminLogin(formData);
 
-      console.log(response);
+      if (!response.role) {
+        showErrorToast(ADMIN_ONLY);
 
-      if (response) {
-        showSuccessToast(LOGIN_SUCCESS);
-        navigate(PATHS.allCustomers);
+        return;
       }
 
-      return response;
+      if (!response.isEmailVerified) {
+        showErrorToast(VERIFY_EMAIL);
+
+        return;
+      }
+
+      if (response.role === ROLES.ADMIN) {
+        showSuccessToast(LOGIN_SUCCESS);
+        navigate(PATHS.allCustomers);
+
+        return response;
+      }
     } catch (error) {
       console.error(error);
       showErrorToast();

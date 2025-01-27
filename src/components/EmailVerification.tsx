@@ -11,7 +11,7 @@ import { CustomTextField } from "./CustomText";
 import { Formik, Form } from "formik";
 import { emailVerifyValue } from "../constant/auth";
 import { tokenInValidationSchema } from "../validations/email";
-import { VerifyEmailTypes } from "../types/credentials";
+import { ROLES, VerifyEmailTypes } from "../types/credentials";
 import { verifyEmail } from "../services/authService";
 import { VERIFY_EMAIL_SUCCESS } from "../constant/messages";
 import { useNavigate } from "react-router-dom";
@@ -25,7 +25,7 @@ const EmailVerification = () => {
     try {
       const { user } = await verifyEmail(token);
 
-      if (user.role === "customer") {
+      if (user.role === ROLES.CUSTOMER) {
         showSuccessToast(` ${user.email} ${VERIFY_EMAIL_SUCCESS}`);
         navigate(PATHS.thankYou);
 
