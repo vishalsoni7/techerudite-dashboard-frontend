@@ -3,7 +3,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Container, Paper, Typography } from "@mui/material";
 import { getAllCustomers } from "../services/authService";
 import { PAGE_SIZE_OPTIONS } from "../constant/auth";
-import { RegistrationTypes } from "../types/credentials";
+import { RegistrationResponseTypes } from "../types/credentials";
 import { showErrorToast } from "../utils/toast";
 
 const columns: GridColDef[] = [
@@ -31,10 +31,12 @@ const AllCustomers = () => {
       );
 
       if (res) {
-        const updatedContent = res.customers.map((user: RegistrationTypes) => ({
-          ...user,
-          id: user._id,
-        }));
+        const updatedContent = res.customers.map(
+          (user: RegistrationResponseTypes) => ({
+            ...user,
+            id: user._id,
+          })
+        );
 
         setRows(updatedContent);
         setRowCountState(res.totalCustomers);

@@ -9,6 +9,9 @@ export interface RegistrationTypes {
   email: string;
   password: string;
   role: string;
+}
+
+export interface RegistrationResponseTypes extends RegistrationTypes {
   _id?: string;
 }
 

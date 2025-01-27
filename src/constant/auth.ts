@@ -1,12 +1,12 @@
 import {
   LoginTypes,
   RegistrationTypes,
-  VerifyEmail,
+  VerifyEmailTypes,
 } from "../types/credentials";
 
 export const BACKEND_BASE_URL = `http://localhost:3001`;
 
-export const emailVerifyValue: VerifyEmail = {
+export const emailVerifyValue: VerifyEmailTypes = {
   token: "",
 };
 
@@ -21,7 +21,6 @@ export const registrationInitialValues: RegistrationTypes = {
   email: "",
   password: "",
   role: "",
-  // _id: "",
 };
 
 export const PAGE_SIZE_OPTIONS = [5, 10];
