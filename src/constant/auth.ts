@@ -1,14 +1,6 @@
-import {
-  LoginTypes,
-  RegistrationTypes,
-  VerifyEmailTypes,
-} from "../types/credentials";
+import { LoginTypes, RegistrationTypes } from "../types/credentials";
 
 export const BACKEND_BASE_URL = `https://techerudite-backend-x5di.onrender.com`;
-
-export const emailVerifyValue: VerifyEmailTypes = {
-  token: "",
-};
 
 export const adminLoginInitialValues: LoginTypes = {
   email: "",

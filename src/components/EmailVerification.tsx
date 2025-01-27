@@ -9,17 +9,21 @@ import {
 } from "@mui/material";
 import { CustomTextField } from "./CustomText";
 import { Formik, Form } from "formik";
-import { emailVerifyValue } from "../constant/auth";
 import { tokenInValidationSchema } from "../validations/email";
 import { ROLES, VerifyEmailTypes } from "../types/credentials";
 import { verifyEmail } from "../services/authService";
 import { VERIFY_EMAIL_SUCCESS } from "../constant/messages";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { PATHS } from "../constant/routes";
 import { showErrorToast, showSuccessToast } from "../utils/toast";
+import { useEffect, useState } from "react";
 
 const EmailVerification = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [emailVerifyValue, setEmailVerifyValue] = useState<VerifyEmailTypes>({
+    token: "",
+  });
 
   const handleSubmit = async (token: VerifyEmailTypes) => {
     try {
@@ -42,12 +46,23 @@ const EmailVerification = () => {
     }
   };
 
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const tokenFromURL = params.get("token");
+    setEmailVerifyValue({ token: tokenFromURL || "" });
+
+    return () => {
+      setEmailVerifyValue({ token: "" });
+    };
+  }, [location.search]);
+
   return (
     <Container maxWidth="lg">
       <Formik
         initialValues={emailVerifyValue}
         validationSchema={tokenInValidationSchema}
         onSubmit={handleSubmit}
+        enableReinitialize
       >
         <Form>
           <Box

@@ -16,13 +16,6 @@ const Registration = () => {
   const navigate = useNavigate();
   const [lastPathSegment, setLastPathSegment] = useState<string | undefined>();
 
-  useEffect(() => {
-    const currentPath = location.pathname;
-    localStorage.setItem("previousPath", currentPath);
-    const segment = currentPath.split("/").pop();
-    setLastPathSegment(segment);
-  }, [location]);
-
   const handleSubmit = async (formData: RegistrationTypes) => {
     try {
       const { newUser } = await registration({
@@ -50,6 +43,17 @@ const Registration = () => {
   const formTitle = lastPathSegment
     ? lastPathSegment.charAt(0).toUpperCase() + lastPathSegment.slice(1)
     : "";
+
+  useEffect(() => {
+    const currentPath = location.pathname;
+    localStorage.setItem("previousPath", currentPath);
+    const segment = currentPath.split("/").pop();
+    setLastPathSegment(segment);
+
+    return () => {
+      setLastPathSegment(undefined);
+    };
+  }, [location]);
 
   return (
     <Container
